@@ -10,8 +10,8 @@ import (
 	"sync/atomic"
 	"time"
 
-	"ask53/internal/ai"
-	"ask53/internal/config"
+	"github.com/MeghdadFadaee/ask-53/internal/ai"
+	"github.com/MeghdadFadaee/ask-53/internal/config"
 )
 
 var (

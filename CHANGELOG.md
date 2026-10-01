@@ -2,7 +2,12 @@
 
 ## Unreleased
 
-Initial implementation:
+No changes yet.
+
+## v0.1.0
+
+First release. See [release notes](docs/releases/v0.1.0.md) for installation and
+deployment limitations.
 
 - Direct IN/TXT question interface with case normalization and optional namespace.
 - OpenAI-compatible completion client with configurable endpoint/model/token cap.

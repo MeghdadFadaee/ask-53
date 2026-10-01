@@ -1,10 +1,11 @@
 FROM golang:1.26-alpine AS build
+ARG VERSION=dev
 WORKDIR /src
 COPY go.mod go.sum ./
 RUN go mod download
 COPY cmd/ask53 ./cmd/ask53
 COPY internal ./internal
-RUN CGO_ENABLED=0 go build -trimpath -ldflags='-s -w' -o /ask53 ./cmd/ask53
+RUN CGO_ENABLED=0 go build -trimpath -ldflags="-s -w -X main.version=${VERSION}" -o /ask53 ./cmd/ask53
 
 FROM alpine:3.23
 RUN apk add --no-cache ca-certificates && addgroup -g 10001 ask53 && adduser -D -H -u 10001 -G ask53 ask53 && mkdir -p /var/lib/ask53 && chown ask53:ask53 /var/lib/ask53

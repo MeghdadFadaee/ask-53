@@ -11,7 +11,7 @@ import (
 	"testing"
 	"time"
 
-	"ask53/internal/config"
+	"github.com/MeghdadFadaee/ask-53/internal/config"
 )
 
 func clientFor(t *testing.T, h http.HandlerFunc) *Client {

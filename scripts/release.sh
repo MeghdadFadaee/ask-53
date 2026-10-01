@@ -38,7 +38,11 @@ for target in linux/amd64 linux/arm64 darwin/amd64 darwin/arm64; do
     go build -trimpath -buildvcs=false \
     -ldflags="-s -w -X main.version=$version" \
     -o "$package_dir/ask53" ./cmd/ask53
-  cp LICENSE README.md THIRD_PARTY_NOTICES.md config.local.json "$package_dir/"
+  cp LICENSE README.md CHANGELOG.md TESTING.md CONTRIBUTING.md SECURITY.md PUBLISHING.md THIRD_PARTY_NOTICES.md config.local.json "$package_dir/"
+  if [[ -f "docs/releases/$version.md" ]]; then
+    mkdir -p "$package_dir/docs/releases"
+    cp "docs/releases/$version.md" "$package_dir/docs/releases/"
+  fi
   cp -R third_party deploy "$package_dir/"
   COPYFILE_DISABLE=1 tar "${tar_flags[@]}" -czf "$output_dir/$name.tar.gz" -C "$staging" "$name"
 done

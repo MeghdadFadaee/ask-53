@@ -46,7 +46,6 @@ license; third-party code must retain its own license notices.
 - Questions, answers, provider credentials, and client addresses stay out of logs.
 - No recursive resolution, DNS forwarding, tools, or unconfigured AI endpoints.
 
-The module is currently a command-only project with local module name `ask53`.
-Clone and build it from the checkout. A canonical remote module path can be set
-once the repository URL is chosen; do not add a `go install ...@latest` example
-with an invented URL.
+The module path is `github.com/MeghdadFadaee/ask-53`. Application packages live
+under `internal/`; this repository provides commands rather than a public Go
+library. Build versioned release binaries with the Makefile to embed the version.

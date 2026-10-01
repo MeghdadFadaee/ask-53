@@ -6,7 +6,7 @@ import (
 	"sync"
 	"time"
 
-	"ask53/internal/config"
+	"github.com/MeghdadFadaee/ask-53/internal/config"
 )
 
 type bucket struct {

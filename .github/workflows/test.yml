@@ -1,8 +1,10 @@
 name: test
 on:
   push:
+    branches: ['**']
   pull_request:
   workflow_dispatch:
+  workflow_call:
 permissions:
   contents: read
 concurrency:
@@ -44,4 +46,6 @@ jobs:
         run: go test ./internal/dnsserver -run='^$' -fuzz=FuzzTXTWire -fuzztime=10s -parallel=2
       - name: Verify release packaging
         if: runner.os == 'Linux'
-        run: make release VERSION=v0.0.0-ci
+        run: |
+          make release VERSION=v0.0.0-ci
+          bash scripts/test-release.sh v0.0.0-ci

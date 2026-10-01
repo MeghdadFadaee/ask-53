@@ -11,8 +11,8 @@ import (
 	"sync/atomic"
 	"time"
 
-	"ask53/internal/config"
-	"ask53/internal/service"
+	"github.com/MeghdadFadaee/ask-53/internal/config"
+	"github.com/MeghdadFadaee/ask-53/internal/service"
 	"github.com/miekg/dns"
 )
 

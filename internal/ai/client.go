@@ -15,7 +15,7 @@ import (
 	"unicode"
 	"unicode/utf8"
 
-	"ask53/internal/config"
+	"github.com/MeghdadFadaee/ask-53/internal/config"
 )
 
 type Error struct {

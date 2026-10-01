@@ -1,4 +1,4 @@
-module ask53
+module github.com/MeghdadFadaee/ask-53
 
 go 1.26.0
 

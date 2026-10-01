@@ -25,6 +25,13 @@ This is a **direct-query application endpoint**, not a recursive resolver or a c
 
 Install Go 1.26 or newer and `dig` (`dnsutils` on Debian/Ubuntu, `bind-utils` on many RPM systems; macOS includes it).
 
+Clone the source before running the commands below:
+
+```sh
+git clone https://github.com/MeghdadFadaee/ask-53.git
+cd ask-53
+```
+
 In terminal one, start the deterministic fake provider:
 
 ```sh
@@ -258,7 +265,7 @@ go test -race -coverprofile=coverage.out ./...
 go tool cover -func=coverage.out
 ```
 
-Tests never use a real AI key. They cover normalized cache keys, real `dig` TCP fallback, simultaneous UDP/TCP queries, 64-way request coalescing, canceled waiters, LRU eviction/expiry, failure suppression, provider HTTP/JSON/body/text errors, redirect rejection, token and byte limits, timeouts, circuit recovery and Retry-After races, daily quota races/persistence/clock rollover, corrupt/missing budget fields, storage failure, IPv6 source grouping, bounded client/connection/waiter tables, TXT wire escaping and UTF-8 boundaries, 512/1232-byte UDP limits, malformed packets and compression loops, EDNS errors, unsupported types/opcodes/classes, allowlists, active shutdown draining, idle connection shutdown, port rebinding, offline config validation, and real process SIGTERM/restart with persistent budget. Fuzzing checks name interpretation and lossless TXT encoding. CI runs these checks on Linux.
+Tests never use a real AI key. They cover normalized cache keys, real `dig` TCP fallback, simultaneous UDP/TCP queries, 64-way request coalescing, canceled waiters, LRU eviction/expiry, failure suppression, provider HTTP/JSON/body/text errors, redirect rejection, token and byte limits, timeouts, circuit recovery and Retry-After races, daily quota races/persistence/clock rollover, corrupt/missing budget fields, storage failure, IPv6 source grouping, bounded client/connection/waiter tables, TXT wire escaping and UTF-8 boundaries, 512/1232-byte UDP limits, malformed packets and compression loops, EDNS errors, unsupported types/opcodes/classes, allowlists, active shutdown draining, idle connection shutdown, port rebinding, offline config validation, and real process SIGTERM/restart with persistent budget. Fuzzing checks name interpretation and lossless TXT encoding. CI runs these checks on Linux and macOS.
 
 - `cmd/ask53`: configuration, signals, startup, and shutdown.
 - `cmd/mock-provider`: deterministic, loopback-only test provider.
@@ -267,6 +274,8 @@ Tests never use a real AI key. They cover normalized cache keys, real `dig` TCP 
 - `internal/service`: rate gates, durable budget, bounded LRU, request coalescing, circuit breaker.
 - `internal/dnsserver`: DNS validation, transport policy, bounded listeners, operational HTTP.
 - `deploy`: systemd unit and production configuration example.
+- `scripts`: release packaging, archive verification, and packaging regression tests.
+- `docs/releases`: version-specific release notes.
 
 ## Protocol and API references
 
@@ -281,9 +290,19 @@ It refuses to overwrite an existing release directory and does not publish.
 `ask53 -version` reports the embedded version. Regular `make build` defaults to
 `dev`; `make build VERSION=v0.1.0` embeds an explicit version.
 
-The manual GitHub Actions workflow builds downloadable archives without creating
-a release or pushing anything. For maintainer publication steps and the
-remaining repository settings, see [PUBLISHING.md](PUBLISHING.md).
+Run `make verify-release VERSION=v0.1.0` to check all archive hashes and contents
+and exercise the native binary's version/configuration. Docker builds accept
+`--build-arg VERSION=v0.1.0` to embed the same version in a locally built image.
+
+The first release is prepared as **v0.1.0**; see its
+[release notes](docs/releases/v0.1.0.md). After publication, download the matching
+OS/architecture archive and `SHA256SUMS` from
+[GitHub Releases](https://github.com/MeghdadFadaee/ask-53/releases). Verify the
+checksum before extraction, then use the bundled deployment instructions.
+
+Pushing a version tag runs Linux/macOS checks, builds the archives, and creates a
+draft GitHub release for maintainer review. Manual workflow runs produce only
+downloadable artifacts. For publication steps, see [PUBLISHING.md](PUBLISHING.md).
 
 Ask53 is distributed under the [MIT license](LICENSE). Dependencies retain their
 own licenses, listed in [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md).
