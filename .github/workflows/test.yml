@@ -1,0 +1,47 @@
+name: test
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: test-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  test:
+    name: test (${{ matrix.os }})
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 15
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
+        with:
+          persist-credentials: false
+      - uses: actions/setup-go@924ae3a1cded613372ab5595356fb5720e22ba16 # v6.5.0
+        with:
+          go-version: "1.26.x"
+          check-latest: true
+          cache: true
+      - name: Install dig on Linux
+        if: runner.os == 'Linux'
+        run: sudo apt-get update && sudo apt-get install -y dnsutils
+      - name: Check module checksums
+        run: go mod verify
+      - name: Check formatting
+        shell: bash
+        run: test -z "$(gofmt -l cmd internal)"
+      - name: Static analysis
+        run: make check
+      - name: Race and integration tests
+        run: make test
+      - name: Fuzz question parser
+        run: go test ./internal/dnsserver -run='^$' -fuzz=FuzzQuestion -fuzztime=10s -parallel=2
+      - name: Fuzz TXT encoding
+        run: go test ./internal/dnsserver -run='^$' -fuzz=FuzzTXTWire -fuzztime=10s -parallel=2
+      - name: Verify release packaging
+        if: runner.os == 'Linux'
+        run: make release VERSION=v0.0.0-ci

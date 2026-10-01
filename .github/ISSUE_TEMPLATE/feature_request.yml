@@ -1,0 +1,16 @@
+name: Feature request
+description: Suggest an improvement and its operational tradeoffs.
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem or use case
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed behavior
+      description: Consider DNS constraints, bounded resources, paid work, and compatibility.
+    validations:
+      required: true

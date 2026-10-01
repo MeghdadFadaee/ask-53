@@ -1,0 +1,25 @@
+# Local IDE and OS files
+.idea/
+.vscode/
+.DS_Store
+
+# Generated binaries, archives, test artifacts, and paid-call state
+/bin/
+/dist/
+/ask53
+/mock-provider
+/var/
+coverage*.out
+*.test
+*.prof
+*.log
+
+# Local configuration and credentials
+.env*
+*.key
+*.pem
+api-key
+api-key.*
+secrets/
+config.private.json
+config.*.local.json

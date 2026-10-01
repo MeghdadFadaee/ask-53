@@ -1,0 +1,31 @@
+name: Bug report
+description: Report a reproducible bug without secrets or vulnerability details.
+body:
+  - type: markdown
+    attributes:
+      value: For security vulnerabilities, follow SECURITY.md. Never paste real API keys, private DNS questions, or unredacted operational configurations.
+  - type: input
+    id: version
+    attributes:
+      label: Version or commit
+      description: Include the OS/architecture and Go version if building from source.
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Reproduction
+      description: Give minimal steps using the local mock provider and redacted configuration.
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected and actual behavior
+    validations:
+      required: true
+  - type: textarea
+    id: diagnostics
+    attributes:
+      label: Diagnostics
+      description: Sanitized dig output, logs, or counters. Omit credentials and private questions.
